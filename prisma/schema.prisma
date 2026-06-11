@@ -11,11 +11,9 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
+model Song {
+  id                     String                 @id() @default(cuid())
+  title                  String
+  artist                 String
+  createdAt              DateTime               @default(now())
 }

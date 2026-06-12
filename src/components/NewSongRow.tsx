@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { api } from "~/trpc/react";
 
 export const NewSongRow = () => {
   const [newSong, setNewSong] = useState<{
@@ -10,6 +11,8 @@ export const NewSongRow = () => {
     title: "",
     artist: "",
   });
+
+  const { mutateAsync } = api.song.create.useMutation();
 
   const handleTitleChange = (title: string) => {
     console.log("New title = ", title);

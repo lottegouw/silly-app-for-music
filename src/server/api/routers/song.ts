@@ -19,4 +19,12 @@ export const songRouter = createTRPCRouter({
       orderBy: { createdAt: "desc" },
     });
   }),
+
+  create: publicProcedure
+    .input(z.object({ title: z.string().min(1), artist: z.string().min(1) }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.db.song.create({
+        data: input,
+      });
+    }),
 });

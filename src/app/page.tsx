@@ -1,20 +1,10 @@
+import { NewSongRow } from "~/components/NewSongRow";
 import { api, HydrateClient } from "~/trpc/server";
-
-const Row = () => {
-  return (
-    <tr>
-      <td>Valerie</td>
-      <td>Amy Winehouse</td>
-    </tr>
-  );
-};
 
 export default async function Home() {
   const songs = await api.song.getAll();
 
-  console.log("songs = ", songs);
-
-  // void api.song.getAll.prefetch();
+  void api.song.getAll.prefetch();
 
   return (
     <HydrateClient>
@@ -24,20 +14,24 @@ export default async function Home() {
         </h1>
         <h2 className="text-secondary mb-4 text-xl font-bold">Song overview</h2>
         <div className="">
-          <table className="min-w-96">
-            <thead className="bg-table-header **:border-background text-secondary text-left **:border-4 **:p-2">
-              <tr>
+          <table className="divide-background min-w-96 divide-y-4 shadow-2xl">
+            <thead className="bg-table-header text-secondary text-left **:p-2">
+              <tr className="divide-background divide-x-4">
                 <th>Title</th>
                 <th>Artist</th>
               </tr>
             </thead>
-            <tbody className="bg-table-cell text-table-header">
+            <tbody className="bg-table-cell text-table-header divide-background divide-y-4">
               {songs.map((song) => (
-                <tr className="*:border-background *:rounded *:border-4 *:p-2">
+                <tr
+                  key={song.id}
+                  className="divide-background divide-x-4 *:p-2"
+                >
                   <td>{song.title}</td>
                   <td>{song.artist}</td>
                 </tr>
               ))}
+              <NewSongRow />
             </tbody>
           </table>
         </div>

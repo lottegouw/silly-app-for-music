@@ -15,7 +15,7 @@ export const songRouter = createTRPCRouter({
 
   getAll: publicProcedure.query(({ ctx }) => {
     return ctx.db.song.findMany({
-      select: { title: true, artist: true },
+      select: { id: true, title: true, artist: true },
       orderBy: { createdAt: "desc" },
     });
   }),

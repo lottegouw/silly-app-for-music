@@ -16,4 +16,6 @@ model Song {
   title                  String
   artist                 String
   createdAt              DateTime               @default(now())
+
+  @@unique([title, artist])
 }

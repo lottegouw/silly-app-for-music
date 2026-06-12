@@ -11,6 +11,7 @@ async function main() {
       { title: "Tieduprightnow", artist: "Parcels" },
       { title: "Boys Don't Cry", artist: "The Cure" },
     ],
+    skipDuplicates: true,
   });
 
   console.log("Seeded song amount: ", user.count);

@@ -7,3 +7,6 @@ CREATE TABLE "Song" (
 
     CONSTRAINT "Song_pkey" PRIMARY KEY ("id")
 );
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Song_title_artist_key" ON "Song"("title", "artist");

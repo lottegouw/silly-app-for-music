@@ -1,9 +1,20 @@
 import { api, HydrateClient } from "~/trpc/server";
 
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+const Row = () => {
+  return (
+    <tr>
+      <td>Valerie</td>
+      <td>Amy Winehouse</td>
+    </tr>
+  );
+};
 
-  void api.post.getLatest.prefetch();
+export default async function Home() {
+  const songs = await api.song.getAll();
+
+  console.log("songs = ", songs);
+
+  // void api.song.getAll.prefetch();
 
   return (
     <HydrateClient>
@@ -20,19 +31,13 @@ export default async function Home() {
                 <th>Artist</th>
               </tr>
             </thead>
-            <tbody className="bg-table-cell **:border-background text-table-header **:border-4 **:p-2">
-              <tr>
-                <td>Valerie</td>
-                <td>Amy Winehouse</td>
-              </tr>
-              <tr>
-                <td>Psycho Killer</td>
-                <td>Talking Heads</td>
-              </tr>
-              <tr>
-                <td>Lonely Boy</td>
-                <td>The Black Keys</td>
-              </tr>
+            <tbody className="bg-table-cell text-table-header">
+              {songs.map((song) => (
+                <tr className="*:border-background *:rounded *:border-4 *:p-2">
+                  <td>{song.title}</td>
+                  <td>{song.artist}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>

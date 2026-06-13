@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import type { Song } from "./SongTable";
+import { toast, Toaster } from "sonner";
 
 type NewSongRowProps = {
   appendSongToTable: (song: Song) => void;
@@ -17,9 +18,10 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
 
   const { mutate: createSong } = api.song.create.useMutation({
     onError: (e) => {
-      console.log("Error! ", e.message);
+      toast.error(e.message, { duration: 2000, className: "bg-red-300" });
     },
     onSuccess: () => {
+      toast.success("Song saved to DB!", { duration: 2000, className: "bg-green-300" });
       console.log(`Saved the following song to DB: ${newSong.artist} - ${newSong.title}`);
       appendSongToTable({ ...newSong });
     },
@@ -46,11 +48,8 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
         />
       </td>
       <td>
-        <button
-          className="bg-primary text-table-header cursor-pointer p-2 text-sm font-bold shadow-2xl"
-          onClick={() => createSong(newSong)}
-        >
-          Save Song
+        <button className="cursor-pointer text-xl" onClick={() => createSong(newSong)}>
+          💾
         </button>
       </td>
     </tr>

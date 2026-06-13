@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { NewSongRow } from "./NewSongRow";
 
-export type Song = { title: string; artist: string };
+export type Song = { title: string; artist: string; coverArt: string | null };
 
 type TableProps = {
   initialSongs: Song[];
@@ -17,13 +17,12 @@ export const SongTable = ({ initialSongs }: TableProps) => {
     setSongs((currentSongs) => [...currentSongs, song]);
   };
 
-  console.log("songs", songs);
-
   return (
     <>
       <table className="divide-background mb-6 min-w-96 divide-y-4">
         <thead className="text-left **:p-2">
           <tr className="divide-background divide-x-4">
+            <th className="bg-table-header text-secondary">Cover art</th>
             <th className="bg-table-header text-secondary">Title</th>
             <th className="bg-table-header text-secondary">Artist</th>
             <th></th>
@@ -32,6 +31,7 @@ export const SongTable = ({ initialSongs }: TableProps) => {
         <tbody className="divide-background divide-y-4">
           {songs.map((song, i) => (
             <tr key={i} className="divide-background divide-x-4 *:p-2">
+              <td className="bg-table-cell text-table-header">{""}</td>
               <td className="bg-table-cell text-table-header">{song.title}</td>
               <td className="bg-table-cell text-table-header">{song.artist}</td>
               <td>x</td>

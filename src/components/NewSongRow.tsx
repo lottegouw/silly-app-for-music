@@ -1,19 +1,42 @@
 import { useState } from "react";
 import { api } from "~/trpc/react";
 import type { Song } from "./SongTable";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
+
+const fileToBase64 = async (file: File): Promise<string> => {
+  return await new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result as string);
+    reader.onerror = () => reject(reader.error);
+
+    reader.readAsDataURL(file);
+  });
+};
+
+const fileToBase64New = async (file: File): Promise<string | null> => {
+  let result: string | null = null;
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = () => {
+    result = reader.result as string;
+  };
+  reader.onerror = () => {
+    result = null;
+  };
+
+  return result;
+};
 
 type NewSongRowProps = {
   appendSongToTable: (song: Song) => void;
 };
 
 export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
-  const [newSong, setNewSong] = useState<{
-    title: string;
-    artist: string;
-  }>({
+  const [newSong, setNewSong] = useState<Song>({
     title: "",
     artist: "",
+    coverArt: null,
   });
 
   const { mutate: createSong } = api.song.create.useMutation({
@@ -27,8 +50,33 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
     },
   });
 
+  const handleFileInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+    if (file.type !== "image/jpeg") {
+      toast.error("File is not a JPEG", { duration: 2_000 });
+      return;
+    }
+
+    if (file.size > 524_288) {
+      toast.error("File too big (> 0.5MB)", { duration: 2_000 });
+      return;
+    }
+
+    toast.loading(`Uploading ${file.name}`, { duration: 2_000 });
+    const base64 = await fileToBase64(file);
+
+    console.log("base64 = ", base64);
+
+    setNewSong({ ...newSong, coverArt: base64 });
+  };
+
   return (
     <tr className="divide-background divide-x-4 *:p-2">
+      <td className="">
+        <input type="file" id="coverArt" name="cover art" accept="image/jpeg image/png" onChange={handleFileInput} />
+      </td>
       <td className="bg-table-cell text-table-header">
         <input
           className="bg-secondary p-1 outline-2 outline-gray-500"

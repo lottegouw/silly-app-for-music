@@ -1,60 +1,45 @@
 "use client";
 
-import { api } from "~/trpc/react";
+import { useState } from "react";
 import { NewSongRow } from "./NewSongRow";
 
-function makeid(length: number) {
-  let result = "";
-  let characters =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  let charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
+export type Song = { title: string; artist: string };
 
 type TableProps = {
-  songs: { id: string; title: string; artist: string }[];
+  initialSongs: Song[];
 };
 
-export const SongTable = ({ songs }: TableProps) => {
-  const { mutate: createSong } = api.song.create.useMutation();
+export const SongTable = ({ initialSongs }: TableProps) => {
+  const [songs, setSongs] = useState(initialSongs);
 
-  const saveSongToDB = () => {
-    const title = "Best song ever";
-    const artist = "The XXX"; // + makeid(5);
-
-    createSong({ title, artist });
-
-    console.log(`Saved the following song to DB: ${artist} - ${title}`);
+  const appendSong = (song: Song) => {
+    console.log("adding following song to table: ", song);
+    setSongs((currentSongs) => [...currentSongs, song]);
   };
+
+  console.log("songs", songs);
 
   return (
     <>
-      <table className="divide-background mb-6 min-w-96 divide-y-4 shadow-2xl">
-        <thead className="bg-table-header text-secondary text-left **:p-2">
+      <table className="divide-background mb-6 min-w-96 divide-y-4">
+        <thead className="text-left **:p-2">
           <tr className="divide-background divide-x-4">
-            <th>Title</th>
-            <th>Artist</th>
+            <th className="bg-table-header text-secondary">Title</th>
+            <th className="bg-table-header text-secondary">Artist</th>
+            <th></th>
           </tr>
         </thead>
-        <tbody className="bg-table-cell text-table-header divide-background divide-y-4">
-          {songs.map((song) => (
-            <tr key={song.id} className="divide-background divide-x-4 *:p-2">
-              <td>{song.title}</td>
-              <td>{song.artist}</td>
+        <tbody className="divide-background divide-y-4">
+          {songs.map((song, i) => (
+            <tr key={i} className="divide-background divide-x-4 *:p-2">
+              <td className="bg-table-cell text-table-header">{song.title}</td>
+              <td className="bg-table-cell text-table-header">{song.artist}</td>
+              <td>x</td>
             </tr>
           ))}
-          <NewSongRow />
+          <NewSongRow appendSongToTable={appendSong} />
         </tbody>
       </table>
-      <button
-        className="bg-primary text-table-header h-16 w-32 cursor-pointer text-xl font-bold shadow-2xl"
-        onClick={saveSongToDB}
-      >
-        Save Song
-      </button>
     </>
   );
 };

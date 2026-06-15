@@ -59,20 +59,29 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
 
   return (
     <tr className="divide-background divide-x-4 *:p-2">
-      <td className="bg-table-cell text-table-header max-w-32">
-        <input
-          type="file"
-          id="coverArt"
-          name="cover art"
-          accept="image/jpeg image/png"
-          onChange={(e) => {
-            toast.promise(handleFileInput(e), {
-              loading: "Loading file...",
-              success: "File succesfully read!",
-              error: (error: Error) => error.message,
-            });
-          }}
-        />
+      <td className="bg-table-cell text-table-header align-center flex gap-2">
+        <label htmlFor="coverArt" className="cursor-pointer">
+          <span className="text-md">📤</span>
+          <input
+            type="file"
+            id="coverArt"
+            name="cover art"
+            accept="image/jpeg image/png"
+            className="hidden"
+            onChange={(e) => {
+              toast.promise(handleFileInput(e), {
+                loading: "Loading file...",
+                success: "File succesfully read!",
+                error: (error: Error) => error.message,
+              });
+            }}
+          />
+        </label>
+        {newSong.coverArt ? (
+          <img src={`data:image/jpeg;base64,${newSong.coverArt}`} alt="Cover art preview" className="mt-1 max-h-16" />
+        ) : (
+          "Upload cover art"
+        )}
       </td>
       <td className="bg-table-cell text-table-header">
         <input

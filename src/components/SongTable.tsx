@@ -5,7 +5,7 @@ import { NewSongRow } from "./NewSongRow";
 
 const CoverArt = ({ coverArt }: { coverArt: string | null }) => {
   if (!coverArt) {
-    return <div className="bg-table-cell text-table-header">No cover art</div>;
+    return <div className="italic">No cover art</div>;
   }
 
   const image = `data:image/jpeg;base64,${coverArt}`;
@@ -43,7 +43,7 @@ export const SongTable = ({ initialSongs }: TableProps) => {
         <tbody className="divide-background divide-y-4">
           {songs.map((song, i) => (
             <tr key={i} className="divide-background max-h-24 divide-x-4 *:p-2">
-              <td className="bg-table-cell text-table-header flex w-32 justify-center">
+              <td className="bg-table-cell text-table-header flex justify-center">
                 <CoverArt coverArt={song.coverArt} />
               </td>
               <td className="bg-table-cell text-table-header">{song.title}</td>

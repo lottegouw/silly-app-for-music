@@ -33,6 +33,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
       toast.success("Song saved to DB!", { duration: 2000, className: "bg-green-300" });
       console.log(`Saved the following song to DB: ${newSong.artist} - ${newSong.title}`);
       appendSongToTable({ ...newSong });
+      setNewSong({ title: "", artist: "", coverArt: null });
     },
   });
 
@@ -58,7 +59,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
 
   return (
     <tr className="divide-background divide-x-4 *:p-2">
-      <td className="">
+      <td className="bg-table-cell text-table-header max-w-32">
         <input
           type="file"
           id="coverArt"

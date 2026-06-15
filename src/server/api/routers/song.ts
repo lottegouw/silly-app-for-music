@@ -11,7 +11,8 @@ export const songRouter = createTRPCRouter({
     });
 
     return songs.map((song) => {
-      return { ...song, coverArt: song.coverArt?.toString() ?? null };
+      const base64 = song.coverArt && Buffer.from(song.coverArt).toString("base64");
+      return { ...song, coverArt: base64 };
     });
   }),
 

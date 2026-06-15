@@ -3,29 +3,15 @@ import { api } from "~/trpc/react";
 import type { Song } from "./SongTable";
 import { toast } from "sonner";
 
-const fileToBase64 = async (file: File): Promise<string> => {
+const fileToBase64 = async (file: File): Promise<string[]> => {
   return await new Promise((resolve, reject) => {
     const reader = new FileReader();
 
-    reader.onload = () => resolve(reader.result as string);
+    reader.onload = () => resolve((reader.result as string).split(",")); //  e.g. ["data:image/jpeg;base64", "base64string..."]
     reader.onerror = () => reject(reader.error);
 
     reader.readAsDataURL(file);
   });
-};
-
-const fileToBase64New = async (file: File): Promise<string | null> => {
-  let result: string | null = null;
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => {
-    result = reader.result as string;
-  };
-  reader.onerror = () => {
-    result = null;
-  };
-
-  return result;
 };
 
 type NewSongRowProps = {
@@ -61,9 +47,11 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
     if (file.size > 524_288) {
       return new Error("File too big (> 0.5MB)");
     }
-    const base64 = await fileToBase64(file);
+    const [header, base64] = await fileToBase64(file);
 
-    console.log("base64 = ", base64);
+    if (!(header && base64)) {
+      return new Error("Failed to convert image to base64 string");
+    }
 
     setNewSong({ ...newSong, coverArt: base64 });
   };

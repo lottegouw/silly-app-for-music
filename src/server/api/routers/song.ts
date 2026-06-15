@@ -20,9 +20,7 @@ export const songRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       console.warn("🚀 coverArt string = ", input.coverArt);
 
-      const base64 = input.coverArt?.replace(/^data:image\/[a-zA-Z+]+;base64,/, "") ?? null;
-
-      const buffer = base64 && Buffer.from(base64, "base64");
+      const buffer = input.coverArt && Buffer.from(input.coverArt, "base64");
 
       try {
         await ctx.db.song.create({

@@ -53,18 +53,14 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
   const handleFileInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
-    if (!file) return;
+    if (!file) return new Error("Unknown error");
     if (file.type !== "image/jpeg") {
-      toast.error("File is not a JPEG", { duration: 2_000 });
-      return;
+      return new Error("File is not a JPEG");
     }
 
     if (file.size > 524_288) {
-      toast.error("File too big (> 0.5MB)", { duration: 2_000 });
-      return;
+      return new Error("File too big (> 0.5MB)");
     }
-
-    toast.loading(`Uploading ${file.name}`, { duration: 2_000 });
     const base64 = await fileToBase64(file);
 
     console.log("base64 = ", base64);
@@ -75,7 +71,19 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
   return (
     <tr className="divide-background divide-x-4 *:p-2">
       <td className="">
-        <input type="file" id="coverArt" name="cover art" accept="image/jpeg image/png" onChange={handleFileInput} />
+        <input
+          type="file"
+          id="coverArt"
+          name="cover art"
+          accept="image/jpeg image/png"
+          onChange={(e) => {
+            toast.promise(handleFileInput(e), {
+              loading: "Loading file...",
+              success: "File succesfully read!",
+              error: (error: Error) => error.message,
+            });
+          }}
+        />
       </td>
       <td className="bg-table-cell text-table-header">
         <input

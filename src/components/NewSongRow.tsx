@@ -3,11 +3,19 @@ import { api } from "~/trpc/react";
 import type { Song } from "./SongTable";
 import { toast } from "sonner";
 
-const fileToBase64 = async (file: File): Promise<string[]> => {
+const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: string } | null> => {
   return await new Promise((resolve, reject) => {
     const reader = new FileReader();
 
-    reader.onload = () => resolve((reader.result as string).split(",")); //  e.g. ["data:image/jpeg;base64", "base64string..."]
+    reader.onload = () => {
+      const [header, base64] = (reader.result as string).split(","); // example: ["data:image/jpeg","4AAQSkZJRgABAQAAQAAD..."]
+      const mimeType = header?.split(":")[1];
+      if (mimeType && base64) {
+        resolve({ mimeType, base64 });
+      } else {
+        resolve(null);
+      }
+    };
     reader.onerror = () => reject(reader.error);
 
     reader.readAsDataURL(file);
@@ -22,7 +30,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
   const [newSong, setNewSong] = useState<Song>({
     title: "",
     artist: "",
-    coverArt: null,
+    image: null,
   });
 
   const { mutate: createSong } = api.song.create.useMutation({
@@ -33,7 +41,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
       toast.success("Song saved to DB!", { duration: 2000, className: "bg-green-300" });
       console.log(`Saved the following song to DB: ${newSong.artist} - ${newSong.title}`);
       appendSongToTable({ ...newSong });
-      setNewSong({ title: "", artist: "", coverArt: null });
+      setNewSong({ title: "", artist: "", image: null });
     },
   });
 
@@ -41,20 +49,16 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
     const file = event.target.files?.[0];
 
     if (!file) return new Error("Unknown error");
-    if (file.type !== "image/jpeg") {
-      return new Error("File is not a JPEG");
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      return new Error("File is not a JPEG or PNG");
     }
 
     if (file.size > 524_288) {
       return new Error("File too big (> 0.5MB)");
     }
-    const [header, base64] = await fileToBase64(file);
+    const image = await fileToImageData(file);
 
-    if (!(header && base64)) {
-      return new Error("Failed to convert image to base64 string");
-    }
-
-    setNewSong({ ...newSong, coverArt: base64 });
+    setNewSong({ ...newSong, image });
   };
 
   return (
@@ -77,8 +81,12 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
             }}
           />
         </label>
-        {newSong.coverArt ? (
-          <img src={`data:image/jpeg;base64,${newSong.coverArt}`} alt="Cover art preview" className="mt-1 max-h-16" />
+        {newSong.image ? (
+          <img
+            src={`data:${newSong.image.mimeType},${newSong.image.base64}`}
+            alt="Cover art preview"
+            className="mt-1 max-h-16"
+          />
         ) : (
           "Upload cover art"
         )}

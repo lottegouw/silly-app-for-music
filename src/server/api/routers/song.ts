@@ -6,29 +6,38 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 export const songRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
     const songs = await ctx.db.song.findMany({
-      select: { title: true, artist: true, coverArt: true },
+      select: { title: true, artist: true, imageBytes: true, imageMimeType: true },
       orderBy: { createdAt: "asc" },
     });
 
     return songs.map((song) => {
-      const base64 = song.coverArt && Buffer.from(song.coverArt).toString("base64");
-      return { ...song, coverArt: base64 };
+      const base64 = song.imageBytes && Buffer.from(song.imageBytes).toString("base64");
+      const image = base64 && song.imageMimeType ? { base64, mimeType: song.imageMimeType } : null;
+      return {
+        title: song.title,
+        artist: song.artist,
+        image,
+      };
     });
   }),
-
   create: publicProcedure
-    .input(z.object({ title: z.string().min(1), artist: z.string().min(1), coverArt: z.string().nullable() }))
+    .input(
+      z.object({
+        title: z.string().min(1),
+        artist: z.string().min(1),
+        image: z.object({ mimeType: z.string(), base64: z.string() }).nullable(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
-      console.warn("🚀 coverArt string = ", input.coverArt);
-
-      const buffer = input.coverArt && Buffer.from(input.coverArt, "base64");
+      const imageBytes = input.image && Buffer.from(input.image.base64, "base64");
 
       try {
         await ctx.db.song.create({
           data: {
             title: input.title,
             artist: input.artist,
-            coverArt: buffer === "" ? null : buffer,
+            imageBytes,
+            imageMimeType: input.image?.mimeType,
           },
         });
       } catch (e) {

@@ -3,25 +3,21 @@
 import { useState } from "react";
 import { NewSongRow } from "./NewSongRow";
 
-const CoverArt = ({ coverArt }: { coverArt: string | null }) => {
-  if (!coverArt) {
+export type Image = { mimeType: string; base64: string };
+
+export type Song = { title: string; artist: string; image: Image | null };
+
+const CoverArt = ({ image }: { image: Image | null }) => {
+  if (!image) {
     return <div className="italic">No cover art</div>;
   }
 
-  const image = `data:image/jpeg;base64,${coverArt}`;
+  const imageSrc = `data:${image.mimeType},${image.base64}`;
 
-  console.log("image = ", image);
-
-  return <img src={image} alt="Cover art" className="align-center size-16" />;
+  return <img src={imageSrc} alt="Cover art" className="align-center size-16 border-2 border-black" />;
 };
 
-export type Song = { title: string; artist: string; coverArt: string | null };
-
-type TableProps = {
-  initialSongs: Song[];
-};
-
-export const SongTable = ({ initialSongs }: TableProps) => {
+export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
   const [songs, setSongs] = useState(initialSongs);
 
   const appendSong = (song: Song) => {
@@ -44,7 +40,7 @@ export const SongTable = ({ initialSongs }: TableProps) => {
           {songs.map((song, i) => (
             <tr key={i} className="divide-background max-h-24 divide-x-4 *:p-2">
               <td className="bg-table-cell text-table-header flex justify-center">
-                <CoverArt coverArt={song.coverArt} />
+                <CoverArt image={song.image} />
               </td>
               <td className="bg-table-cell text-table-header">{song.title}</td>
               <td className="bg-table-cell text-table-header">{song.artist}</td>

@@ -16,7 +16,8 @@ model Song {
   title                  String
   artist                 String
   createdAt              DateTime               @default(now())
-  coverArt               Bytes?
+  imageBytes             Bytes?
+  imageMimeType          String?
 
   @@unique([title, artist])
 }

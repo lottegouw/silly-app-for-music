@@ -11,7 +11,6 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
   const [songs, setSongs] = useState(initialSongs);
 
   const appendSong = (song: Song) => {
-    console.log("adding following song to table: ", song);
     setSongs((currentSongs) => [...currentSongs, song]);
   };
 

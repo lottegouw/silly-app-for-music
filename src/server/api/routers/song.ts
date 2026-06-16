@@ -32,7 +32,7 @@ export const songRouter = createTRPCRouter({
       const imageBytes = input.image && Buffer.from(input.image.base64, "base64");
 
       try {
-        await ctx.db.song.create({
+        const { id } = await ctx.db.song.create({
           data: {
             title: input.title,
             artist: input.artist,
@@ -40,6 +40,7 @@ export const songRouter = createTRPCRouter({
             imageMimeType: input.image?.mimeType,
           },
         });
+        return id;
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
           throw new Error("Cannot create song. Song with the same title and artist already exists");

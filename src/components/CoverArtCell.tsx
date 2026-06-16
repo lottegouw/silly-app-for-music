@@ -1,8 +1,7 @@
 import { toast } from "sonner";
 import { FaUpload, FaTrashCan } from "react-icons/fa6";
 
-import type { Image } from "./SongTable";
-import { useState } from "react";
+import type { Image } from "./types";
 
 const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: string } | null> => {
   return await new Promise((resolve, reject) => {

@@ -62,7 +62,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
   };
 
   return (
-    <tr className="divide-background divide-x-4 *:p-2">
+    <tr className="divide-background divide-x-4 *:px-2 *:py-1.5">
       <td className="bg-table-cell text-table-header align-center flex gap-2">
         <label htmlFor="coverArt" className="cursor-pointer">
           <span className="text-md">📤</span>
@@ -85,7 +85,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
           <img
             src={`data:${newSong.image.mimeType},${newSong.image.base64}`}
             alt="Cover art preview"
-            className="mt-1 max-h-16"
+            className="max-h-12 border-2 border-gray-700"
           />
         ) : (
           "Upload cover art"
@@ -93,7 +93,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
       </td>
       <td className="bg-table-cell text-table-header">
         <input
-          className="bg-secondary p-1 outline-2 outline-gray-500"
+          className="bg-secondary mx-4 p-1 outline-2 outline-gray-500"
           type="text"
           placeholder="New title"
           value={newSong.title}
@@ -102,7 +102,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
       </td>
       <td className="bg-table-cell text-table-header">
         <input
-          className="bg-secondary p-1 outline-2 outline-gray-500"
+          className="bg-secondary mx-4 p-1 outline-2 outline-gray-500"
           type="text"
           placeholder="New artist"
           value={newSong.artist}

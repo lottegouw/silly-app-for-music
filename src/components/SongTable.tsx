@@ -4,24 +4,11 @@ import { useState } from "react";
 import { FaTrashCan } from "react-icons/fa6";
 
 import { NewSongRow } from "./NewSongRow";
+import { CoverArtCell } from "./CoverArtCell";
 
 export type Image = { mimeType: string; base64: string };
 
 export type Song = { title: string; artist: string; image: Image | null };
-
-const CoverArt = ({ image }: { image: Image | null }) => {
-  if (!image) {
-    return (
-      <div className="flex size-12 items-center justify-center border-2 border-gray-500">
-        <span className="text-xs text-gray-500">N/A</span>
-      </div>
-    );
-  }
-
-  const imageSrc = `data:${image.mimeType},${image.base64}`;
-
-  return <img src={imageSrc} alt="Cover art" className="align-center size-12 border-2 border-gray-700" />;
-};
 
 export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
   const [songs, setSongs] = useState(initialSongs);
@@ -45,9 +32,7 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
         <tbody className="divide-background divide-y-4">
           {songs.map((song, i) => (
             <tr key={i} className="divide-background divide-x-4 *:px-2 *:py-1.5">
-              <td className="bg-table-cell text-table-header flex justify-center">
-                <CoverArt image={song.image} />
-              </td>
+              <CoverArtCell image={song.image} onImageChange={() => {}} />
               <td className="bg-table-cell text-table-header">{song.title}</td>
               <td className="bg-table-cell text-table-header">{song.artist}</td>
               <td>

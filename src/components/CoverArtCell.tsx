@@ -65,9 +65,13 @@ export const CoverArtCell = ({
             }}
           />
         </label>
-        <div className="size-4 cursor-pointer" onClick={() => onImageChange(null)}>
-          <FaTrashCan className="text-background size-4" />
-        </div>
+        <button
+          className="enabled:*:text-background size-4 enabled:cursor-pointer disabled:*:text-gray-400"
+          disabled={!image}
+          onClick={() => onImageChange(null)}
+        >
+          <FaTrashCan className="size-4" />
+        </button>
       </div>
       {image ? (
         <img
@@ -76,8 +80,8 @@ export const CoverArtCell = ({
           className="size-12 border-2 border-gray-700"
         />
       ) : (
-        <div className="flex size-12 items-center justify-center border-2 border-gray-500">
-          <span className="text-xs text-gray-500">N/A</span>
+        <div className="flex size-12 items-center justify-center border-2 border-gray-400">
+          <span className="text-xs text-gray-400">N/A</span>
         </div>
       )}
     </td>

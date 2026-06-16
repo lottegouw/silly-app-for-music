@@ -24,18 +24,12 @@ const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: 
 };
 
 export const CoverArtCell = ({
-  initialImage,
+  image,
   onImageChange,
 }: {
-  initialImage: Image | null;
+  image: Image | null;
   onImageChange: (image: Image | null) => void;
 }) => {
-  const [localImage, setLocalImage] = useState<Image | null>(initialImage);
-  const setImage = (image: Image | null) => {
-    setLocalImage(image);
-    onImageChange(image); // propagate image change to parent component
-  };
-
   const handleFileInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -48,7 +42,7 @@ export const CoverArtCell = ({
       return new Error("File too big (> 0.5MB)");
     }
     const image = await fileToImageData(file);
-    setImage(image);
+    onImageChange(image);
   };
 
   return (
@@ -71,13 +65,13 @@ export const CoverArtCell = ({
             }}
           />
         </label>
-        <div className="">
+        <div className="size-4 cursor-pointer" onClick={() => onImageChange(null)}>
           <FaTrashCan className="text-background size-4" />
         </div>
       </div>
-      {localImage ? (
+      {image ? (
         <img
-          src={`data:${localImage.mimeType},${localImage.base64}`}
+          src={`data:${image.mimeType},${image.base64}`}
           alt="Cover art preview"
           className="size-12 border-2 border-gray-700"
         />

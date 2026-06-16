@@ -5,10 +5,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 import { NewSongRow } from "./NewSongRow";
 import { CoverArtCell } from "./CoverArtCell";
-
-export type Image = { mimeType: string; base64: string };
-
-export type Song = { title: string; artist: string; image: Image | null };
+import type { Song } from "./types";
 
 export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
   const [songs, setSongs] = useState(initialSongs);

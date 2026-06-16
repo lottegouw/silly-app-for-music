@@ -3,11 +3,11 @@ import { useState } from "react";
 import { FaFloppyDisk } from "react-icons/fa6";
 
 import { api } from "~/trpc/react";
-import type { Image, Song } from "./SongTable";
+import type { Image, NewSong, Song } from "./types";
 import { CoverArtCell } from "./CoverArtCell";
 
 export const NewSongRow = ({ appendSongToTable }: { appendSongToTable: (song: Song) => void }) => {
-  const [newSong, setNewSong] = useState<Song>({
+  const [newSong, setNewSong] = useState<NewSong>({
     title: "",
     artist: "",
     image: null,
@@ -17,10 +17,10 @@ export const NewSongRow = ({ appendSongToTable }: { appendSongToTable: (song: So
     onError: (e) => {
       toast.error(e.message, { duration: 2000, className: "bg-red-300" });
     },
-    onSuccess: () => {
+    onSuccess: (id) => {
       toast.success("Song saved to DB!", { duration: 2000, className: "bg-green-300" });
       console.log(`Saved the following song to DB: ${newSong.artist} - ${newSong.title}`);
-      appendSongToTable({ ...newSong });
+      appendSongToTable({ ...newSong, id });
       setNewSong({ title: "", artist: "", image: null });
     },
   });

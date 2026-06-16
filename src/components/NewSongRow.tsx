@@ -1,7 +1,9 @@
+import { toast } from "sonner";
 import { useState } from "react";
+import { FaFloppyDisk, FaUpload, FaTrashCan } from "react-icons/fa6";
+
 import { api } from "~/trpc/react";
 import type { Song } from "./SongTable";
-import { toast } from "sonner";
 
 const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: string } | null> => {
   return await new Promise((resolve, reject) => {
@@ -63,32 +65,39 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
 
   return (
     <tr className="divide-background divide-x-4 *:px-2 *:py-1.5">
-      <td className="bg-table-cell text-table-header align-center flex gap-2">
-        <label htmlFor="coverArt" className="cursor-pointer">
-          <span className="text-md">📤</span>
-          <input
-            type="file"
-            id="coverArt"
-            name="cover art"
-            accept="image/jpeg image/png"
-            className="hidden"
-            onChange={(e) => {
-              toast.promise(handleFileInput(e), {
-                loading: "Loading file...",
-                success: "File succesfully read!",
-                error: (error: Error) => error.message,
-              });
-            }}
-          />
-        </label>
+      <td className="bg-table-cell text-table-header align-center flex justify-center gap-4">
+        <div className="flex flex-col justify-between py-0.5">
+          <label htmlFor="coverArt" className="size-4 cursor-pointer">
+            <FaUpload className="text-background h-full w-full" />
+            <input
+              type="file"
+              id="coverArt"
+              name="cover art"
+              accept="image/jpeg image/png"
+              className="hidden"
+              onChange={(e) => {
+                toast.promise(handleFileInput(e), {
+                  loading: "Loading file...",
+                  success: "File succesfully read!",
+                  error: (error: Error) => error.message,
+                });
+              }}
+            />
+          </label>
+          <div className="">
+            <FaTrashCan className="text-background size-4" />
+          </div>
+        </div>
         {newSong.image ? (
           <img
             src={`data:${newSong.image.mimeType},${newSong.image.base64}`}
             alt="Cover art preview"
-            className="max-h-12 border-2 border-gray-700"
+            className="size-12 border-2 border-gray-700"
           />
         ) : (
-          "Upload cover art"
+          <div className="flex size-12 items-center justify-center border-2 border-gray-500">
+            <span className="text-xs text-gray-500">N/A</span>
+          </div>
         )}
       </td>
       <td className="bg-table-cell text-table-header">
@@ -111,7 +120,7 @@ export const NewSongRow = ({ appendSongToTable }: NewSongRowProps) => {
       </td>
       <td>
         <button className="cursor-pointer text-xl" onClick={() => createSong(newSong)}>
-          💾
+          <FaFloppyDisk className="text-secondary size-5" />
         </button>
       </td>
     </tr>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { FaTrashCan } from "react-icons/fa6";
+
 import { NewSongRow } from "./NewSongRow";
 
 export type Image = { mimeType: string; base64: string };
@@ -34,7 +36,7 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
       <table className="divide-background mb-6 min-w-96 divide-y-4">
         <thead className="text-left **:p-2">
           <tr className="divide-background divide-x-4">
-            <th className="bg-table-header text-secondary w-32 text-center">Cover art</th>
+            <th className="bg-table-header text-secondary w-28 text-center">Cover art</th>
             <th className="bg-table-header text-secondary">Title</th>
             <th className="bg-table-header text-secondary">Artist</th>
             <th></th>
@@ -48,7 +50,9 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
               </td>
               <td className="bg-table-cell text-table-header">{song.title}</td>
               <td className="bg-table-cell text-table-header">{song.artist}</td>
-              <td>x</td>
+              <td>
+                <FaTrashCan className="text-secondary size-5" />
+              </td>
             </tr>
           ))}
           <NewSongRow appendSongToTable={appendSong} />

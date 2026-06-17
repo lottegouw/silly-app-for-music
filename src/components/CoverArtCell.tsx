@@ -54,7 +54,7 @@ export const CoverArtCell = ({
     <td className="bg-table-cell-bg align-center flex justify-center gap-4">
       <div className="flex flex-col justify-between py-0.5">
         <label htmlFor={inputId} className="size-4 cursor-pointer">
-          <FaUpload className="text-icon-dark h-full w-full" />
+          <FaUpload title="Upload image" className="text-icon-dark h-full w-full" />
           <input
             type="file"
             id={inputId}
@@ -73,6 +73,7 @@ export const CoverArtCell = ({
         <button
           className="enabled:*:text-icon-dark disabled:*:text-disabled-gray size-4 enabled:cursor-pointer"
           disabled={!image}
+          title="Delete image"
           onClick={() => onImageChange(null)}
         >
           <FaTrashCan className="size-4" />

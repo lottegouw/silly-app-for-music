@@ -69,7 +69,11 @@ export const NewProductRow = ({
         </select>
       </td>
       <td>
-        <button className="cursor-pointer text-xl" onClick={() => createProduct(newProduct)}>
+        <button
+          className="cursor-pointer text-xl"
+          title="Save product"
+          onClick={() => createProduct(newProduct)}
+        >
           <FaFloppyDisk className="text-icon-light size-5" />
         </button>
       </td>

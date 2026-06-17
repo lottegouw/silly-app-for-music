@@ -46,7 +46,11 @@ export const ProductRow = ({
         {productTypeName(product.productType)}
       </td>
       <td>
-        <button className="cursor-pointer" onClick={() => deleteMutate({ id: product.id })}>
+        <button
+          className="cursor-pointer"
+          title="Delete row"
+          onClick={() => deleteMutate({ id: product.id })}
+        >
           <FaTrashCan className="text-icon-light size-5" />
         </button>
       </td>

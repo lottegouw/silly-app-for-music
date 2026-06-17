@@ -71,7 +71,22 @@ export const songRouter = createTRPCRouter({
           },
         });
       } catch (e) {
-        throw new Error("Unkown error occured when updating song to DB");
+        throw new Error("Unkown error occured when updating song in DB");
+      }
+    }),
+  deleteRow: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      try {
+        await ctx.db.song.delete({
+          where: { id: input.id },
+        });
+      } catch (e) {
+        throw new Error("Unkown error occured when deleting song from DB");
       }
     }),
 });

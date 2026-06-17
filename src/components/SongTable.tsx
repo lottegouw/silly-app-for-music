@@ -17,15 +17,16 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
     setSongs((songs) =>
       songs.map((song) => {
         if (song.id === targetSong.id) {
-          console.log("right song! = ", song.id);
-          console.log("song.image = ", targetSong.image);
           return targetSong;
         } else {
-          console.log("wrong song! = ", song.id);
           return song;
         }
       }),
     );
+  };
+
+  const deleteRow = (songId: string) => {
+    setSongs((songs) => songs.filter((song) => song.id !== songId));
   };
 
   return (
@@ -40,7 +41,7 @@ export const SongTable = ({ initialSongs }: { initialSongs: Song[] }) => {
       </thead>
       <tbody className="divide-background divide-y-4">
         {songs.map((song) => (
-          <SongRow key={song.id} song={song} updateRow={updateRow} />
+          <SongRow key={song.id} song={song} updateRow={updateRow} deleteRow={deleteRow} />
         ))}
         <NewSongRow appendSongToTable={appendSong} />
       </tbody>

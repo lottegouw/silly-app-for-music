@@ -3,7 +3,7 @@ import { PrismaClient } from "generated/prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
-  const user = await prisma.song.createMany({
+  const user = await prisma.product.createMany({
     data: [
       { title: "Valerie", artist: "Amy Winehouse" },
       { title: "Psycho Killer", artist: "Talking Heads" },
@@ -14,7 +14,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  console.log("Seeded song amount: ", user.count);
+  console.log("Seeded product amount: ", user.count);
 }
 
 main()

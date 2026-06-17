@@ -11,13 +11,20 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Song {
+enum ProductType {
+    SINGLE
+    EP
+    LP
+}
+
+model Product {
   id                     String                 @id() @default(cuid())
   title                  String
   artist                 String
   createdAt              DateTime               @default(now())
   imageBytes             Bytes?
   imageMimeType          String?
+  productType            ProductType            @default(SINGLE)
 
   @@unique([title, artist])
 }

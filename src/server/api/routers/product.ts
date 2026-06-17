@@ -3,20 +3,29 @@ import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const songRouter = createTRPCRouter({
+export const productRouter = createTRPCRouter({
   getAll: publicProcedure.query(async ({ ctx }) => {
-    const songs = await ctx.db.song.findMany({
-      select: { id: true, title: true, artist: true, imageBytes: true, imageMimeType: true },
-      orderBy: [{ createdAt: "asc" }, { title: "asc" }], // TODO: order by 2 things
+    const products = await ctx.db.product.findMany({
+      select: {
+        id: true,
+        title: true,
+        artist: true,
+        productType: true,
+        imageBytes: true,
+        imageMimeType: true,
+      },
+      orderBy: [{ createdAt: "asc" }, { title: "asc" }],
     });
 
-    return songs.map((song) => {
-      const base64 = song.imageBytes && Buffer.from(song.imageBytes).toString("base64");
-      const image = base64 && song.imageMimeType ? { base64, mimeType: song.imageMimeType } : null;
+    return products.map((product) => {
+      const base64 = product.imageBytes && Buffer.from(product.imageBytes).toString("base64");
+      const image =
+        base64 && product.imageMimeType ? { base64, mimeType: product.imageMimeType } : null;
       return {
-        id: song.id,
-        title: song.title,
-        artist: song.artist,
+        id: product.id,
+        title: product.title,
+        artist: product.artist,
+        productType: product.productType,
         image,
       };
     });
@@ -33,7 +42,7 @@ export const songRouter = createTRPCRouter({
       const imageBytes = input.image && Buffer.from(input.image.base64, "base64");
 
       try {
-        const { id } = await ctx.db.song.create({
+        const { id } = await ctx.db.product.create({
           data: {
             title: input.title,
             artist: input.artist,
@@ -44,9 +53,11 @@ export const songRouter = createTRPCRouter({
         return id;
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
-          throw new Error("Cannot create song. Song with the same title and artist already exists");
+          throw new Error(
+            "Cannot create product. Product  with the same title and artist already exists",
+          );
         } else {
-          throw new Error("Unkown error occured when saving song to DB");
+          throw new Error("Unkown error occured when saving product to DB");
         }
       }
     }),
@@ -63,7 +74,7 @@ export const songRouter = createTRPCRouter({
       const imageBytes = input.image && Buffer.from(input.image.base64, "base64");
 
       try {
-        await ctx.db.song.update({
+        await ctx.db.product.update({
           where: { id: input.id },
           data: {
             imageBytes,
@@ -71,7 +82,7 @@ export const songRouter = createTRPCRouter({
           },
         });
       } catch (e) {
-        throw new Error("Unkown error occured when updating song in DB");
+        throw new Error("Unkown error occured when updating product in DB");
       }
     }),
   deleteRow: publicProcedure
@@ -82,11 +93,11 @@ export const songRouter = createTRPCRouter({
     )
     .mutation(async ({ ctx, input }) => {
       try {
-        await ctx.db.song.delete({
+        await ctx.db.product.delete({
           where: { id: input.id },
         });
       } catch (e) {
-        throw new Error("Unkown error occured when deleting song from DB");
+        throw new Error("Unkown error occured when deleting product from DB");
       }
     }),
 });

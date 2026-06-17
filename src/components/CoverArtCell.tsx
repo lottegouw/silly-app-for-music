@@ -25,11 +25,11 @@ const fileToImageData = async (
 };
 
 export const CoverArtCell = ({
-  songId,
+  productId,
   image,
   onImageChange,
 }: {
-  songId: string | null;
+  productId: string | null;
   image: Image | null;
   onImageChange: (image: Image | null) => void;
 }) => {
@@ -48,7 +48,7 @@ export const CoverArtCell = ({
     onImageChange(image);
   };
 
-  const inputId = `coverArtInput-${songId}`;
+  const inputId = `coverArtInput-${productId}`;
 
   return (
     <td className="bg-table-cell text-table-header align-center flex justify-center gap-4">

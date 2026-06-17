@@ -2,7 +2,7 @@ import { FaTrashCan } from "react-icons/fa6";
 
 import { api } from "~/trpc/react";
 import { CoverArtCell } from "./CoverArtCell";
-import type { Product } from "./types";
+import { productTypeName, type Product } from "./types";
 import { toast } from "sonner";
 
 export const ProductRow = ({
@@ -42,6 +42,7 @@ export const ProductRow = ({
       />
       <td className="bg-table-cell text-table-header">{product.title}</td>
       <td className="bg-table-cell text-table-header">{product.artist}</td>
+      <td className="bg-table-cell text-table-header">{productTypeName(product.productType)}</td>
       <td>
         <button className="cursor-pointer" onClick={() => deleteMutate({ id: product.id })}>
           <FaTrashCan className="text-secondary size-5" />

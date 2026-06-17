@@ -1,4 +1,4 @@
-import { Prisma } from "generated/prisma";
+import { Prisma, ProductType } from "generated/prisma";
 import { z } from "zod";
 
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
@@ -35,6 +35,7 @@ export const productRouter = createTRPCRouter({
       z.object({
         title: z.string().min(1),
         artist: z.string().min(1),
+        productType: z.nativeEnum(ProductType),
         image: z.object({ mimeType: z.string(), base64: z.string() }).nullable(),
       }),
     )
@@ -46,6 +47,7 @@ export const productRouter = createTRPCRouter({
           data: {
             title: input.title,
             artist: input.artist,
+            productType: input.productType,
             imageBytes,
             imageMimeType: input.image?.mimeType,
           },

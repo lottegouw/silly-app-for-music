@@ -5,6 +5,7 @@ import { FaFloppyDisk } from "react-icons/fa6";
 import { api } from "~/trpc/react";
 import type { Image, NewProduct, Product } from "./types";
 import { CoverArtCell } from "./CoverArtCell";
+import type { ProductType } from "generated/prisma";
 
 export const NewProductRow = ({
   appendProductToTable,
@@ -14,7 +15,7 @@ export const NewProductRow = ({
   const [newProduct, setNewProduct] = useState<NewProduct>({
     title: "",
     artist: "",
-    productType: "SONG",
+    productType: "SINGLE",
     image: null,
   });
   const { mutate: createProduct } = api.product.create.useMutation({
@@ -24,7 +25,7 @@ export const NewProductRow = ({
     onSuccess: (id) => {
       toast.success("Product saved to DB!");
       appendProductToTable({ ...newProduct, id });
-      setNewProduct({ title: "", artist: "", productType: "SONG", image: null });
+      setNewProduct({ title: "", artist: "", productType: "SINGLE", image: null });
     },
   });
 
@@ -54,6 +55,18 @@ export const NewProductRow = ({
           value={newProduct.artist}
           onChange={(e) => setNewProduct({ ...newProduct, artist: e.target.value })}
         />
+      </td>
+      <td className="bg-table-cell text-table-header">
+        <select
+          value={newProduct.productType}
+          onChange={(e) =>
+            setNewProduct({ ...newProduct, productType: e.target.value as ProductType })
+          }
+        >
+          <option value="SINGLE">Single</option>
+          <option value="EP">EP</option>
+          <option value="LP">LP</option>
+        </select>
       </td>
       <td>
         <button className="cursor-pointer text-xl" onClick={() => createProduct(newProduct)}>

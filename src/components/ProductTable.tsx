@@ -36,6 +36,7 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
           <th className="bg-table-header text-secondary w-28 text-center">Cover art</th>
           <th className="bg-table-header text-secondary">Title</th>
           <th className="bg-table-header text-secondary">Artist</th>
+          <th className="bg-table-header text-secondary">Type</th>
           <th></th>
         </tr>
       </thead>

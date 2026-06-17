@@ -3,7 +3,9 @@ import { FaUpload, FaTrashCan } from "react-icons/fa6";
 
 import type { Image } from "./types";
 
-const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: string } | null> => {
+const fileToImageData = async (
+  file: File,
+): Promise<{ mimeType: string; base64: string } | null> => {
   return await new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -23,9 +25,11 @@ const fileToImageData = async (file: File): Promise<{ mimeType: string; base64: 
 };
 
 export const CoverArtCell = ({
+  songId,
   image,
   onImageChange,
 }: {
+  songId: string | null;
   image: Image | null;
   onImageChange: (image: Image | null) => void;
 }) => {
@@ -44,14 +48,16 @@ export const CoverArtCell = ({
     onImageChange(image);
   };
 
+  const inputId = `coverArtInput-${songId}`;
+
   return (
     <td className="bg-table-cell text-table-header align-center flex justify-center gap-4">
       <div className="flex flex-col justify-between py-0.5">
-        <label htmlFor="coverArt" className="size-4 cursor-pointer">
+        <label htmlFor={inputId} className="size-4 cursor-pointer">
           <FaUpload className="text-background h-full w-full" />
           <input
             type="file"
-            id="coverArt"
+            id={inputId}
             name="cover art"
             accept="image/jpeg image/png"
             className="hidden"
@@ -60,6 +66,7 @@ export const CoverArtCell = ({
                 loading: "Loading file...",
                 success: "File succesfully read!",
                 error: (error: Error) => error.message,
+                duration: 2_000,
               });
             }}
           />

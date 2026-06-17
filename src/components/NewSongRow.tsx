@@ -12,7 +12,6 @@ export const NewSongRow = ({ appendSongToTable }: { appendSongToTable: (song: So
     artist: "",
     image: null,
   });
-
   const { mutate: createSong } = api.song.create.useMutation({
     onError: (e) => {
       toast.error(e.message, { duration: 2000 });
@@ -26,7 +25,13 @@ export const NewSongRow = ({ appendSongToTable }: { appendSongToTable: (song: So
 
   return (
     <tr className="divide-background divide-x-4 *:px-2 *:py-1.5">
-      <CoverArtCell image={newSong.image} onImageChange={(image: Image | null) => setNewSong({ ...newSong, image })} />
+      <CoverArtCell
+        songId={null}
+        image={newSong.image}
+        onImageChange={(image: Image | null) => {
+          setNewSong({ ...newSong, image });
+        }}
+      />
       <td className="bg-table-cell text-table-header">
         <input
           className="bg-secondary mx-4 p-1 outline-2 outline-gray-500"

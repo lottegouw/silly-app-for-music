@@ -38,25 +38,25 @@ export const NewProductRow = ({
           setNewProduct({ ...newProduct, image });
         }}
       />
-      <td className="bg-table-cell text-table-header">
+      <td className="bg-table-cell-bg text-table-cell-text">
         <input
-          className="bg-secondary mx-4 p-1 outline-2 outline-gray-500"
+          className="bg-input-box outline-disabled-gray mx-4 p-1 outline-2"
           type="text"
           placeholder="New title"
           value={newProduct.title}
           onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
         />
       </td>
-      <td className="bg-table-cell text-table-header">
+      <td className="bg-table-cell-bg text-table-cell-text">
         <input
-          className="bg-secondary mx-4 p-1 outline-2 outline-gray-500"
+          className="bg-input-box outline-disabled-gray mx-4 p-1 outline-2"
           type="text"
           placeholder="New artist"
           value={newProduct.artist}
           onChange={(e) => setNewProduct({ ...newProduct, artist: e.target.value })}
         />
       </td>
-      <td className="bg-table-cell text-table-header">
+      <td className="bg-table-cell-bg text-table-cell-text">
         <select
           value={newProduct.productType}
           onChange={(e) =>
@@ -70,7 +70,7 @@ export const NewProductRow = ({
       </td>
       <td>
         <button className="cursor-pointer text-xl" onClick={() => createProduct(newProduct)}>
-          <FaFloppyDisk className="text-secondary size-5" />
+          <FaFloppyDisk className="text-icon-light size-5" />
         </button>
       </td>
     </tr>

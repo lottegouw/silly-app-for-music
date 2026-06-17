@@ -40,12 +40,14 @@ export const ProductRow = ({
           updateImageMutate({ id: product.id, image });
         }}
       />
-      <td className="bg-table-cell text-table-header">{product.title}</td>
-      <td className="bg-table-cell text-table-header">{product.artist}</td>
-      <td className="bg-table-cell text-table-header">{productTypeName(product.productType)}</td>
+      <td className="bg-table-cell-bg text-table-cell-text">{product.title}</td>
+      <td className="bg-table-cell-bg text-table-cell-text">{product.artist}</td>
+      <td className="bg-table-cell-bg text-table-cell-text">
+        {productTypeName(product.productType)}
+      </td>
       <td>
         <button className="cursor-pointer" onClick={() => deleteMutate({ id: product.id })}>
-          <FaTrashCan className="text-secondary size-5" />
+          <FaTrashCan className="text-icon-light size-5" />
         </button>
       </td>
     </tr>

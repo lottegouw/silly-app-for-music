@@ -51,10 +51,10 @@ export const CoverArtCell = ({
   const inputId = `coverArtInput-${productId}`;
 
   return (
-    <td className="bg-table-cell text-table-header align-center flex justify-center gap-4">
+    <td className="bg-table-cell-bg align-center flex justify-center gap-4">
       <div className="flex flex-col justify-between py-0.5">
         <label htmlFor={inputId} className="size-4 cursor-pointer">
-          <FaUpload className="text-background h-full w-full" />
+          <FaUpload className="text-icon-dark h-full w-full" />
           <input
             type="file"
             id={inputId}
@@ -71,7 +71,7 @@ export const CoverArtCell = ({
           />
         </label>
         <button
-          className="enabled:*:text-background size-4 enabled:cursor-pointer disabled:*:text-gray-400"
+          className="enabled:*:text-icon-dark disabled:*:text-disabled-gray size-4 enabled:cursor-pointer"
           disabled={!image}
           onClick={() => onImageChange(null)}
         >
@@ -82,11 +82,11 @@ export const CoverArtCell = ({
         <img
           src={`data:${image.mimeType},${image.base64}`}
           alt="Cover art preview"
-          className="size-12 border-2 border-gray-700"
+          className="border-image-border size-12 border-2"
         />
       ) : (
-        <div className="flex size-12 items-center justify-center border-2 border-gray-400">
-          <span className="text-xs text-gray-400">N/A</span>
+        <div className="border-disabled-gray flex size-12 items-center justify-center border-2">
+          <span className="text-disabled-gray text-xs">N/A</span>
         </div>
       )}
     </td>

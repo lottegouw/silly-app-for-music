@@ -7,14 +7,10 @@ import { toast } from "sonner";
 
 export const SongRow = ({ song, updateRow }: { song: Song; updateRow: (song: Song) => void }) => {
   const { mutate: updateImage } = api.song.updateImage.useMutation({
-    onError: (e) => {
-      toast.error(e.message, { duration: 2000 });
-    },
+    onError: (e) => toast.error(e.message),
     onSuccess: (_, variables) => {
       const image = variables.image;
-      toast.success(image ? "Cover art uploaded to DB!" : "Cover art removed from DB!", {
-        duration: 2000,
-      });
+      toast.success(image ? "Cover art uploaded to DB!" : "Cover art removed from DB!");
       updateRow({ ...song, image });
     },
   });

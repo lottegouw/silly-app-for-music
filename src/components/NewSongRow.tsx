@@ -14,10 +14,10 @@ export const NewSongRow = ({ appendSongToTable }: { appendSongToTable: (song: So
   });
   const { mutate: createSong } = api.song.create.useMutation({
     onError: (e) => {
-      toast.error(e.message, { duration: 2000 });
+      toast.error(e.message);
     },
     onSuccess: (id) => {
-      toast.success("Song saved to DB!", { duration: 2000 });
+      toast.success("Song saved to DB!");
       appendSongToTable({ ...newSong, id });
       setNewSong({ title: "", artist: "", image: null });
     },

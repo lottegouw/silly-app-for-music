@@ -66,7 +66,6 @@ export const CoverArtCell = ({
                 loading: "Loading file...",
                 success: "File succesfully read!",
                 error: (error: Error) => error.message,
-                duration: 2_000,
               });
             }}
           />

@@ -32,10 +32,13 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
   };
 
   return (
-    <table className="divide-background mb-6 min-w-96 divide-y-4">
+    <table className="divide-background mb-6 divide-y-4">
       <thead className="text-left **:p-2">
         <tr className="divide-background divide-x-4">
-          <th className="bg-table-header-bg text-table-header-text w-28 text-center">Cover art</th>
+          {/* Flex is required as it also used for the other cells in this columns. Else the cell wide won't match.*/}
+          <th className="bg-table-header-bg text-table-header-text flex justify-center">
+            Cover art
+          </th>
           <th className="bg-table-header-bg text-table-header-text">Title</th>
           <th className="bg-table-header-bg text-table-header-text">Artist</th>
           <th className="bg-table-header-bg text-table-header-text">Type</th>

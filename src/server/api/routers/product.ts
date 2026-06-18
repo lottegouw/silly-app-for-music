@@ -83,7 +83,7 @@ export const productRouter = createTRPCRouter({
             imageMimeType: input.image?.mimeType,
           },
         });
-      } catch (e) {
+      } catch {
         throw new Error("Unkown error occured when updating product in DB");
       }
     }),
@@ -98,7 +98,7 @@ export const productRouter = createTRPCRouter({
         await ctx.db.product.delete({
           where: { id: input.id },
         });
-      } catch (e) {
+      } catch {
         throw new Error("Unkown error occured when deleting product from DB");
       }
     }),

@@ -1,4 +1,4 @@
-import { ProductType } from "generated/prisma";
+import { type ProductType } from "generated/prisma";
 
 export type Image = { mimeType: string; base64: string };
 

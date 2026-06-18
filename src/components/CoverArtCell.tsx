@@ -21,7 +21,7 @@ const fileToImageData = async (
         resolve(null);
       }
     };
-    reader.onerror = () => reject(reader.error);
+    reader.onerror = () => reject(new Error("Failed to read file"));
 
     reader.readAsDataURL(file);
   });

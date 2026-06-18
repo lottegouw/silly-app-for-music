@@ -15,12 +15,18 @@ The app is based ontop of the following technologies:
 
 ## Scaffolding
 
-The project was scaffoled using the [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`. To learn more see:
+The project was scaffoled using the [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Instructions
 
-## Install & Run
+### Requirements
+
+You have to have installed:
+
+- Node.js (for npm and running the app)
+- PostgreSQL (for the database)
+
+### Installation steps
 
 Install the packages:
 
@@ -28,16 +34,20 @@ Install the packages:
 npm install
 ```
 
-Create the database and run the migrations:
-
-```shell
-npx prisma migrate dev
-```
-
-To reset the database (including replacing its data with the seed data):
+Create the DB for the first time and seed (or reset the database):
 
 ```shell
 npx prisma migrate reset
+```
+
+Copy the .env.example file to .env and set the connection string for your Postgres database.
+
+### Running and developing
+
+To run migrations accor3ding to changes in the prisma schema, run:
+
+```shell
+npx prisma migrate dev
 ```
 
 To run the app:

@@ -7,7 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 
 export const metadata: Metadata = {
   title: "SAM - Silly App for Music",
-  description: "Excercise website for creating a music content management app.",
+  description: "Exercise website for creating a music content management app.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

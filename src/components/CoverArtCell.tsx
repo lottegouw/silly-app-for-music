@@ -70,7 +70,7 @@ export const CoverArtCell = ({
               onChange={(e) => {
                 toast.promise(handleFileInput(e), {
                   loading: "Loading file...",
-                  success: "File succesfully read!",
+                  success: "File successfully read!",
                   error: (error: Error) => error.message,
                 });
               }}

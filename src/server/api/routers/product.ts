@@ -56,10 +56,10 @@ export const productRouter = createTRPCRouter({
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
           throw new Error(
-            "Cannot create product. Product  with the same title and artist already exists",
+            "Cannot create product. Product with the same title and artist already exists",
           );
         } else {
-          throw new Error("Unkown error occured when saving product to DB");
+          throw new Error("Unknown error occurred when saving product to DB");
         }
       }
     }),
@@ -84,7 +84,7 @@ export const productRouter = createTRPCRouter({
           },
         });
       } catch {
-        throw new Error("Unkown error occured when updating product in DB");
+        throw new Error("Unknown error occurred when updating product in DB");
       }
     }),
   deleteRow: publicProcedure
@@ -99,7 +99,7 @@ export const productRouter = createTRPCRouter({
           where: { id: input.id },
         });
       } catch {
-        throw new Error("Unkown error occured when deleting product from DB");
+        throw new Error("Unknown error occurred when deleting product from DB");
       }
     }),
 });

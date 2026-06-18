@@ -1,39 +1,47 @@
-# Create T3 App
+# Silly App for Music (SAM)
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This is a simple app for managing music products such as albums and singles.
 
-## What's next? How do I make an app with this?
+## Stack
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+The app is based ontop of the following technologies:
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- [React](https://reactjs.org/) - As front-end framework
+- [Next.js](https://nextjs.org/) - Used here for its router, API routes and some server-side rendering
+- [TypeScript](https://www.typescriptlang.org/) - JavaScript with type safety
+- [Tailwind CSS](https://tailwindcss.com/) - CSS framework to ease styling
+- [Prisma](https://www.prisma.io/) - ORM to connect to the Postgres database and manage migrations
+- [tRPC](https://trpc.io/) - Library for creating typesafe APIs
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+## Scaffolding
 
-## Learn More
-
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+The project was scaffoled using the [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`. To learn more see:
 
 - [Documentation](https://create.t3.gg/)
 - [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Install & Run
 
-## How do I deploy this?
+Install the packages:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```shell
+npm install
+```
 
-
-
-## Important commands
-
-`npm run dev`
+Create the database and run the migrations:
 
 ```shell
 npx prisma migrate dev
+```
+
+To reset the database (including replacing its data with the seed data):
+
+```shell
+npx prisma migrate reset
+```
+
+To run the app:
+
+```shell
+npm run dev
 ```

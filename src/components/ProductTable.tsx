@@ -35,10 +35,10 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
     <table className="divide-background mb-6 min-w-96 divide-y-4">
       <thead className="text-left **:p-2">
         <tr className="divide-background divide-x-4">
-          <th className="bg-table-header-bg text-secondary w-28 text-center">Cover art</th>
-          <th className="bg-table-header-bg text-secondary">Title</th>
-          <th className="bg-table-header-bg text-secondary">Artist</th>
-          <th className="bg-table-header-bg text-secondary">Type</th>
+          <th className="bg-table-header-bg text-table-header-text w-28 text-center">Cover art</th>
+          <th className="bg-table-header-bg text-table-header-text">Title</th>
+          <th className="bg-table-header-bg text-table-header-text">Artist</th>
+          <th className="bg-table-header-bg text-table-header-text">Type</th>
           <th></th>
         </tr>
       </thead>

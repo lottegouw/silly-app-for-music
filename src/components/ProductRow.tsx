@@ -32,7 +32,7 @@ export const ProductRow = ({
   });
 
   return (
-    <tr className="divide-background divide-x-4 *:px-2 *:py-1.5">
+    <tr className="*:px-2 *:py-1.5">
       <CoverArtCell
         productId={product.id}
         image={product.image}
@@ -40,18 +40,23 @@ export const ProductRow = ({
           updateImageMutate({ id: product.id, image });
         }}
       />
-      <td className="bg-table-cell-bg text-table-cell-text">{product.title}</td>
-      <td className="bg-table-cell-bg text-table-cell-text">{product.artist}</td>
-      <td className="bg-table-cell-bg text-table-cell-text">
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
+        {product.title}
+      </td>
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
+        {product.artist}
+      </td>
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
         {productTypeName(product.productType)}
       </td>
-      <td>
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
+        {/* This can become a menu with a kebab icon once more options are needed*/}
         <button
-          className="cursor-pointer"
+          className="cursor-pointer p-0.5"
           title="Delete row"
           onClick={() => deleteMutate({ id: product.id })}
         >
-          <FaTrashCan className="text-icon-light size-5" />
+          <FaTrashCan className="text-icon size-4" />
         </button>
       </td>
     </tr>

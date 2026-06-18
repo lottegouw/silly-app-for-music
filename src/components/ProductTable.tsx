@@ -32,20 +32,17 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
   };
 
   return (
-    <table className="divide-background mb-6 divide-y-4">
+    <table className="mb-6 shadow-2xl">
       <thead className="text-left **:p-2">
-        <tr className="divide-background divide-x-4">
-          {/* Flex is required as it also used for the other cells in this columns. Else the cell wide won't match.*/}
-          <th className="bg-table-header-bg text-table-header-text flex justify-center">
-            Cover art
-          </th>
-          <th className="bg-table-header-bg text-table-header-text">Title</th>
-          <th className="bg-table-header-bg text-table-header-text">Artist</th>
-          <th className="bg-table-header-bg text-table-header-text">Type</th>
-          <th></th>
+        <tr className="bg-table-header-bg">
+          <th className="text-table-header-text border-table-border border-2">Cover art</th>
+          <th className="text-table-header-text border-table-border border-2">Title</th>
+          <th className="text-table-header-text border-table-border border-2">Artist</th>
+          <th className="text-table-header-text border-table-border border-2">Type</th>
+          <th className="text-table-header-text border-table-border border-2"></th>
         </tr>
       </thead>
-      <tbody className="divide-background divide-y-4">
+      <tbody className="">
         {products.map((product) => (
           <ProductRow
             key={product.id}

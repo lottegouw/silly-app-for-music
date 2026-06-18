@@ -56,45 +56,47 @@ export const CoverArtCell = ({
   const inputId = `coverArtInput-${productId}`;
 
   return (
-    <td className="bg-table-cell-bg align-center flex justify-center gap-4">
-      <div className="flex flex-col justify-between py-0.5">
-        <label htmlFor={inputId} className="size-4 cursor-pointer">
-          <FaUpload title="Upload image" className="text-icon-dark h-full w-full" />
-          <input
-            type="file"
-            id={inputId}
-            name="cover art"
-            accept="image/jpeg image/png"
-            className="hidden"
-            onChange={(e) => {
-              toast.promise(handleFileInput(e), {
-                loading: "Loading file...",
-                success: "File succesfully read!",
-                error: (error: Error) => error.message,
-              });
-            }}
-          />
-        </label>
-        <button
-          className="enabled:*:text-icon-dark disabled:*:text-disabled-gray size-4 enabled:cursor-pointer"
-          disabled={!image}
-          title="Delete image"
-          onClick={() => onImageChange(null)}
-        >
-          <FaTrashCan className="size-4" />
-        </button>
-      </div>
-      {image ? (
-        <img
-          src={`data:${image.mimeType},${image.base64}`}
-          alt="Cover art preview"
-          className="border-image-border size-12 border-2"
-        />
-      ) : (
-        <div className="border-disabled-gray flex size-12 items-center justify-center border-2">
-          <span className="text-disabled-gray text-xs">N/A</span>
+    <td className="bg-table-cell-bg border-table-border border-2">
+      <div className="align-center flex justify-center gap-4">
+        <div className="flex flex-col justify-between py-1">
+          <label htmlFor={inputId} className="size-4 cursor-pointer">
+            <FaUpload title="Upload image" className="text-icon h-full w-full" />
+            <input
+              type="file"
+              id={inputId}
+              name="cover art"
+              accept="image/jpeg image/png"
+              className="hidden"
+              onChange={(e) => {
+                toast.promise(handleFileInput(e), {
+                  loading: "Loading file...",
+                  success: "File succesfully read!",
+                  error: (error: Error) => error.message,
+                });
+              }}
+            />
+          </label>
+          <button
+            className="enabled:*:text-icon disabled:*:text-disabled-gray size-4 enabled:cursor-pointer"
+            disabled={!image}
+            title="Delete image"
+            onClick={() => onImageChange(null)}
+          >
+            <FaTrashCan className="size-4" />
+          </button>
         </div>
-      )}
+        {image ? (
+          <img
+            src={`data:${image.mimeType},${image.base64}`}
+            alt="Cover art preview"
+            className="border-image-border size-12 border-2"
+          />
+        ) : (
+          <div className="border-disabled-gray flex size-12 items-center justify-center border-2">
+            <span className="text-disabled-gray text-xs">N/A</span>
+          </div>
+        )}
+      </div>
     </td>
   );
 };

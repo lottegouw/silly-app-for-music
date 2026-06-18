@@ -31,7 +31,7 @@ export const NewProductRow = ({
   });
 
   return (
-    <tr className="divide-background divide-x-4 *:px-2 *:py-1.5">
+    <tr className="text-table-cell-text *:px-2 *:py-1.5">
       <CoverArtCell
         productId={null}
         image={newProduct.image}
@@ -39,25 +39,25 @@ export const NewProductRow = ({
           setNewProduct({ ...newProduct, image });
         }}
       />
-      <td className="bg-table-cell-bg text-table-cell-text">
+      <td className="bg-table-cell-bg border-table-border border-2">
         <input
-          className="bg-input-box outline-disabled-gray mx-4 p-1 outline-2"
+          className="bg-input-box-bg text-input-box-text outline-input-box-border mx-4 p-1 outline-2"
           type="text"
           placeholder="New title"
           value={newProduct.title}
           onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
         />
       </td>
-      <td className="bg-table-cell-bg text-table-cell-text">
+      <td className="bg-table-cell-bg border-table-border border-2">
         <input
-          className="bg-input-box outline-disabled-gray mx-4 p-1 outline-2"
+          className="bg-input-box-bg text-input-box-text outline-input-box-border mx-4 p-1 outline-2"
           type="text"
           placeholder="New artist"
           value={newProduct.artist}
           onChange={(e) => setNewProduct({ ...newProduct, artist: e.target.value })}
         />
       </td>
-      <td className="bg-table-cell-bg text-table-cell-text">
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
         <select
           value={newProduct.productType}
           onChange={(e) =>
@@ -69,13 +69,13 @@ export const NewProductRow = ({
           <option value="LP">LP</option>
         </select>
       </td>
-      <td>
+      <td className="bg-table-cell-bg text-table-cell-text border-table-border border-2">
         <button
-          className="cursor-pointer text-xl"
+          className="m-0 cursor-pointer p-0.5 text-xl"
           title="Save product"
           onClick={() => createProduct(newProduct)}
         >
-          <FaFloppyDisk className="text-icon-light size-5" />
+          <FaFloppyDisk className="text-icon size-4" />
         </button>
       </td>
     </tr>

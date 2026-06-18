@@ -7,6 +7,8 @@ import type { Product } from "./types";
 import { ProductRow } from "./ProductRow";
 
 export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }) => {
+  // If the page gets more complex in the future, it would help to migrate statement to a library such as Zustand.
+  // This would avoid having to send all the setters downstream.
   const [products, setProducts] = useState(initialProducts);
 
   const appendProduct = (product: Product) => {

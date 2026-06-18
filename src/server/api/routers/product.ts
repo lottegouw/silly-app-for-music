@@ -1,6 +1,6 @@
-import { Prisma, ProductType } from "generated/prisma";
 import { z } from "zod";
 
+import { Prisma, ProductType } from "generated/prisma";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
@@ -64,7 +64,7 @@ export const productRouter = createTRPCRouter({
       }
     }),
 
-  // deletes the image if image is null, otherwise updates the image
+  // Deletes the image if image is null, otherwise updates the image
   updateImage: publicProcedure
     .input(
       z.object({

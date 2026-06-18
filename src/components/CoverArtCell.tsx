@@ -3,6 +3,9 @@ import { FaUpload, FaTrashCan } from "react-icons/fa6";
 
 import type { Image } from "./types";
 
+// Files need to be converted to a base64 to it possible to transport them through tRPC.
+// If files were bigger it might be better to upload them to a blob storage (e.g. Azure Blob Storage, AWS S3).
+// However, this would require much more configuration and secret management.
 const fileToImageData = async (
   file: File,
 ): Promise<{ mimeType: string; base64: string } | null> => {
@@ -41,6 +44,8 @@ export const CoverArtCell = ({
       return new Error("File is not a JPEG or PNG");
     }
 
+    // The file size limit here is actually 0.5 MiB instead of 0.5 MB.
+    // However, Windows uses MiB while using the MB unit, so better use MiB to avoid confusing Windows users.
     if (file.size > 524_288) {
       return new Error("File too big (> 0.5MB)");
     }

@@ -12,6 +12,7 @@ export const NewProductRow = ({
 }: {
   appendProductToTable: (product: Product) => void;
 }) => {
+  // If the input gets more complicated in the future, it would help to migrate to a form through e.g. react-hook-form
   const [newProduct, setNewProduct] = useState<NewProduct>({
     title: "",
     artist: "",

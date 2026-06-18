@@ -1,9 +1,9 @@
 import { FaTrashCan } from "react-icons/fa6";
+import { toast } from "sonner";
 
 import { api } from "~/trpc/react";
 import { CoverArtCell } from "./CoverArtCell";
 import { productTypeName, type Product } from "./types";
-import { toast } from "sonner";
 
 export const ProductRow = ({
   product,

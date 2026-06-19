@@ -17,7 +17,7 @@ export const productRouter = createTRPCRouter({
       orderBy: [{ createdAt: "asc" }, { title: "asc" }],
     });
 
-    return products.map((product) => {
+    return products.map((product, i) => {
       const base64 = product.imageBytes && Buffer.from(product.imageBytes).toString("base64");
       const image =
         base64 && product.imageMimeType ? { base64, mimeType: product.imageMimeType } : null;
@@ -27,6 +27,7 @@ export const productRouter = createTRPCRouter({
         artist: product.artist,
         productType: product.productType,
         image,
+        defaultOrder: i, // used to sort the products in the order they were created
       };
     });
   }),
@@ -52,7 +53,10 @@ export const productRouter = createTRPCRouter({
             imageMimeType: input.image?.mimeType,
           },
         });
-        return id;
+
+        const productCount = await ctx.db.product.count(); // used for defaultOrder sorting
+
+        return { id, defaultOrder: productCount };
       } catch (e) {
         if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === "P2002") {
           throw new Error(

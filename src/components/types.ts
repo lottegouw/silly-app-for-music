@@ -11,6 +11,7 @@ export type NewProduct = {
 
 export type Product = NewProduct & {
   id: string;
+  defaultOrder: number;
 };
 
 export const productTypeName = (productType: ProductType) => {

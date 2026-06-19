@@ -23,9 +23,9 @@ export const NewProductRow = ({
     onError: (e) => {
       toast.error(e.message);
     },
-    onSuccess: (id) => {
+    onSuccess: ({ id, defaultOrder }) => {
       toast.success("Product saved to DB!");
-      appendProductToTable({ ...newProduct, id });
+      appendProductToTable({ ...newProduct, id, defaultOrder });
       setNewProduct({ title: "", artist: "", productType: "SINGLE", image: null });
     },
   });

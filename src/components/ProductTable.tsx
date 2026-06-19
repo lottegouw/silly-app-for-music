@@ -1,26 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { FaSort, FaSortDown } from "react-icons/fa6";
+import { FaSort, FaSortDown, FaSortUp } from "react-icons/fa6";
 
 import { NewProductRow } from "./NewProductRow";
 import type { Product } from "./types";
 import { ProductRow } from "./ProductRow";
 
-export type SortingColumn = "DEFAULT" | "TITLE" | "ARTIST" | "PRODUCT_TYPE";
+type SortingColumn = "DEFAULT" | "TITLE" | "ARTIST" | "PRODUCT_TYPE";
+type SortingDirection = "ASC" | "DESC";
 
-const sortProductArray = (products: Product[], sortingColumn: SortingColumn) => {
+const sortProductArray = (
+  products: Product[],
+  sortingColumn: SortingColumn,
+  sortingDirection: SortingDirection,
+) => {
   return [...products].sort((x, y) => {
+    let comparison = 0;
     switch (sortingColumn) {
       case "TITLE":
-        return x.title.localeCompare(y.title);
+        comparison = x.title.localeCompare(y.title);
+        break;
       case "ARTIST":
-        return x.artist.localeCompare(y.artist);
+        comparison = x.artist.localeCompare(y.artist);
+        break;
       case "PRODUCT_TYPE":
-        return x.productType.localeCompare(y.productType);
+        comparison = x.productType.localeCompare(y.productType);
+        break;
       case "DEFAULT":
-        return x.defaultOrder - y.defaultOrder;
+        comparison = x.defaultOrder - y.defaultOrder;
+        break;
     }
+    return sortingDirection === "ASC" ? comparison : -comparison;
   });
 };
 
@@ -30,21 +41,33 @@ const SortButton = ({
   resetTable,
 }: {
   isEnabled: boolean;
-  sortTable: () => void;
+  sortTable: (direction: SortingDirection) => void;
   resetTable: () => void;
 }) => {
+  const [mode, setMode] = useState<SortingDirection>("ASC");
+
   return (
     <button
       className="cursor-pointer p-1"
       onClick={() => {
         if (!isEnabled) {
-          sortTable();
+          setMode("ASC");
+          sortTable("ASC");
+        } else if (mode === "ASC") {
+          setMode("DESC");
+          sortTable("DESC");
         } else {
           resetTable();
         }
       }}
     >
-      {isEnabled ? <FaSortDown className="size-4" /> : <FaSort className="size-4" />}
+      {!isEnabled ? (
+        <FaSort className="size-4" />
+      ) : mode === "ASC" ? (
+        <FaSortUp className="size-4" />
+      ) : (
+        <FaSortDown className="size-4" />
+      )}
     </button>
   );
 };
@@ -52,7 +75,7 @@ const SortButton = ({
 export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }) => {
   // If the page gets more complex in the future, it would help to migrate statement to a library such as Zustand.
   // This would avoid having to send all the setters downstream.
-  const [products, setProducts] = useState(sortProductArray(initialProducts, "DEFAULT"));
+  const [products, setProducts] = useState(sortProductArray(initialProducts, "DEFAULT", "ASC"));
   const [sortingColumn, setSortingColumn] = useState<SortingColumn>("DEFAULT");
 
   const appendProduct = (product: Product) => {
@@ -75,9 +98,9 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
     setProducts((products) => products.filter((product) => product.id !== productId));
   };
 
-  const sortTable = (sortingColumn: SortingColumn) => {
+  const sortTable = (sortingColumn: SortingColumn, sortingDirection: SortingDirection) => {
     setSortingColumn(sortingColumn);
-    setProducts((products) => sortProductArray(products, sortingColumn));
+    setProducts((products) => sortProductArray(products, sortingColumn, sortingDirection));
   };
 
   return (
@@ -87,38 +110,38 @@ export const ProductTable = ({ initialProducts }: { initialProducts: Product[] }
           <th className="text-table-header-text border-table-border border-2">Cover art</th>
           <th className="text-table-header-text border-table-border border-2">
             <div className="flex justify-between">
-              <span className="">Title</span>
+              Title
               <SortButton
                 isEnabled={sortingColumn === "TITLE"}
-                sortTable={() => sortTable("TITLE")}
-                resetTable={() => sortTable("DEFAULT")}
+                sortTable={(direction) => sortTable("TITLE", direction)}
+                resetTable={() => sortTable("DEFAULT", "ASC")}
               />
             </div>
           </th>
           <th className="text-table-header-text border-table-border border-2">
             <div className="flex justify-between">
-              <span className="">Artist</span>
+              Artist
               <SortButton
                 isEnabled={sortingColumn === "ARTIST"}
-                sortTable={() => sortTable("ARTIST")}
-                resetTable={() => sortTable("DEFAULT")}
+                sortTable={(direction) => sortTable("ARTIST", direction)}
+                resetTable={() => sortTable("DEFAULT", "ASC")}
               />
             </div>
           </th>
           <th className="text-table-header-text border-table-border border-2">
             <div className="flex justify-between">
-              <span className="">Type</span>
+              Type
               <SortButton
                 isEnabled={sortingColumn === "PRODUCT_TYPE"}
-                sortTable={() => sortTable("PRODUCT_TYPE")}
-                resetTable={() => sortTable("DEFAULT")}
+                sortTable={(direction) => sortTable("PRODUCT_TYPE", direction)}
+                resetTable={() => sortTable("DEFAULT", "ASC")}
               />
             </div>
           </th>
           <th className="text-table-header-text border-table-border border-2"></th>
         </tr>
       </thead>
-      <tbody className="">
+      <tbody>
         {products.map((product) => (
           <ProductRow
             key={product.id}

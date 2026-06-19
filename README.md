@@ -1,3 +1,5 @@
+_WARNING: APP IS NOT MOBILE READY YET!_
+
 # Silly App for Music (SAM)
 
 This is a simple app for managing music products such as albums and singles.

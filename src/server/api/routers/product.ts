@@ -4,6 +4,7 @@ import { Prisma, ProductType } from "generated/prisma";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const productRouter = createTRPCRouter({
+  /** Returns all current products in the database */
   getAll: publicProcedure.query(async ({ ctx }) => {
     const products = await ctx.db.product.findMany({
       select: {
@@ -31,6 +32,9 @@ export const productRouter = createTRPCRouter({
       };
     });
   }),
+  /** Creates a new product. Returns both the new id and the defaultOrder (which is the current number of products in the database, used for sorting by creation order)
+   *  Throws if a product with the same title and artist already exists!
+   */
   create: publicProcedure
     .input(
       z.object({
@@ -68,7 +72,7 @@ export const productRouter = createTRPCRouter({
       }
     }),
 
-  // Deletes the image if image is null, otherwise updates the image
+  /** Deletes the image if image is null, otherwise updates the image */
   updateImage: publicProcedure
     .input(
       z.object({
@@ -91,6 +95,7 @@ export const productRouter = createTRPCRouter({
         throw new Error("Unknown error occurred when updating product in DB");
       }
     }),
+  /** Deletes a product by its ID */
   deleteRow: publicProcedure
     .input(
       z.object({
